@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class WeatherDayDataTest {
+public class WeatherDayTest {
 
     @Test
     void fromMap_ValidMap_CorrectValuesSet() {
@@ -18,7 +18,7 @@ public class WeatherDayDataTest {
         validMap.put("MnT", "10.5");
         validMap.put("MxT", "20.5");
 
-        WeatherDayData result = WeatherDayData.fromMap(validMap);
+        WeatherDay result = WeatherDay.fromMap(validMap);
 
         assertEquals(5, result.getDay());
         assertEquals(10.5f, result.getMinimumTemperature());
@@ -26,14 +26,14 @@ public class WeatherDayDataTest {
     }
 
     @Test
-    void fromMap_InvalidData_DefaultValuesSet() {
+    void fromMap_InvalidData_ThrowsException() {
         Map<String, String> invalidMap = new HashMap<>();
         invalidMap.put("Day", "InvalidDay");
         invalidMap.put("MnT", "InvalidMinTemp");
         invalidMap.put("MxT", "InvalidMaxTemp");
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            WeatherDayData.fromMap(invalidMap);
+            WeatherDay.fromMap(invalidMap);
         });
         assertTrue(exception.getMessage().contains("Error while parsing weather day data"));
     }

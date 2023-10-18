@@ -4,9 +4,8 @@ import java.util.Map;
 
 /**
  * Represents weather data for a specific day.
- * Provides a method to parse weather data from a map.
  */
-public class WeatherDayData {
+public class WeatherDay {
 
     /** The day of the month (1-31). */
     private int day;
@@ -72,19 +71,28 @@ public class WeatherDayData {
     }
 
     /**
-     * Creates a new {@code WeatherDayData} instance from the provided map.
+     * Returns the difference between maximum and minimum temperature.
      *
-     * @param weatherDayData A map containing the weather data for the day.
-     * @return A new {@code WeatherDayData} instance populated with the data from
+     * @return Temperature spread.
+     */
+    public float getTemperatureSpread() {
+        return maximumTemperature - minimumTemperature;
+    }
+
+    /**
+     * Creates a new {@code WeatherDay} instance from the provided map.
+     *
+     * @param weatherDay A map containing the weather data for the day.
+     * @return A new {@code WeatherDay} instance populated with the data from
      *         the provided map. If there's an error in parsing, the instance will
      *         have default values.
      */
-    public static WeatherDayData fromMap(Map<String, String> weatherDayData) {
-        WeatherDayData data = new WeatherDayData();
+    public static WeatherDay fromMap(Map<String, String> weatherDay) {
+        WeatherDay data = new WeatherDay();
         try {
-            data.setDay(Integer.parseInt(weatherDayData.get("Day")));
-            data.setMinimumTemperature(Float.parseFloat(weatherDayData.get("MnT")));
-            data.setMaximumTemperature(Float.parseFloat(weatherDayData.get("MxT")));
+            data.setDay(Integer.parseInt(weatherDay.get("Day")));
+            data.setMinimumTemperature(Float.parseFloat(weatherDay.get("MnT")));
+            data.setMaximumTemperature(Float.parseFloat(weatherDay.get("MxT")));
         } catch (Exception e) {
             throw new RuntimeException("Error while parsing weather day data.", e);
         }
