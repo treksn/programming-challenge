@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  * Reads CSV files and returns the content as a list of key-value pair mappings.
- * Assumes the first row of the CSV is the header. Supports custom delimiters.
+ * Assumes the first row of the CSV is the header.
  */
 public class CSVFileReader implements StructuredFileReader {
 
@@ -27,7 +27,7 @@ public class CSVFileReader implements StructuredFileReader {
     /**
      * Reads structured content from a csv file.
      *
-     * @param filePath      The path to the file
+     * @param filePath The path to the file
      * @param delimiter The delimiter used to separate entries in the CSV file.
      * @return Content of the file as a list of key/value pairs
      */
@@ -54,7 +54,11 @@ public class CSVFileReader implements StructuredFileReader {
                 fileData.add(rowData);
             }
         } catch (IllegalArgumentException iae) {
-            throw new RuntimeException("Error in provided data: " + iae.getMessage(), iae);
+            String message = iae.getMessage();
+            if (header.size() == 1) {
+                message = "Just a single column selected, did you choose the right delimiter?";
+            }
+            throw new RuntimeException("Error in provided data: " + message, iae);
         } catch (FileNotFoundException fnfe) {
             throw new RuntimeException("The specified file was not found: " + filePath, fnfe);
         } catch (IOException ioe) {
